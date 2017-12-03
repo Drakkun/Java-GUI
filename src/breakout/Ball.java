@@ -22,17 +22,6 @@ public class Ball implements Animated {
 
     @Override
     public void update() {
-        setPosition();
-    }
-
-    @Override
-    public void render(Graphics2D graphics) {
-        graphics.setColor(Color.DARK_GRAY);
-        graphics.setStroke(new BasicStroke(4));
-        graphics.fillOval((int) x, (int) y, SIZE, SIZE);
-    }
-
-    private void setPosition() {
         x += xDirection;
         y += yDirection;
 
@@ -51,5 +40,12 @@ public class Ball implements Animated {
         if (y > MainWindow.WINDOW_HEIGHT - SIZE) {
             yDirection = -yDirection;
         }
+    }
+
+    @Override
+    public void render(Graphics2D graphics) {
+        graphics.setColor(Color.DARK_GRAY);
+        graphics.setStroke(new BasicStroke(4));
+        graphics.fillOval((int) x, (int) y, SIZE, SIZE);
     }
 }
