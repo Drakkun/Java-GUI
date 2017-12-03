@@ -10,6 +10,8 @@ public class BreakoutPanel extends JPanel implements Runnable {
     private BufferedImage image;
     private Graphics2D graphics;
 
+    Ball ball = new Ball();
+
 
     private void init() {
         running = true;
@@ -17,6 +19,8 @@ public class BreakoutPanel extends JPanel implements Runnable {
         // Draw game on a buffered image
         image = new BufferedImage(MainWindow.WIDTH, MainWindow.HEIGHT, BufferedImage.TYPE_INT_RGB);
         graphics = (Graphics2D) image.getGraphics();
+
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     }
 
     @Override
@@ -34,12 +38,14 @@ public class BreakoutPanel extends JPanel implements Runnable {
     }
 
     public void update() {
-
+        ball.update();
     }
 
     public void render() {
         graphics.setColor(Color.WHITE);
         graphics.fillRect(0, 0, MainWindow.WIDTH, MainWindow.HEIGHT);
+
+        ball.render(graphics);
     }
 
     @Override
