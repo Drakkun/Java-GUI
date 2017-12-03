@@ -3,15 +3,18 @@ package breakout;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
 public class BreakoutPanel extends JPanel implements Runnable, Animated {
 
     private boolean running = false;
     private BufferedImage image = new BufferedImage(MainWindow.WIDTH, MainWindow.HEIGHT, BufferedImage.TYPE_INT_RGB);
-    private Graphics2D graphics;
     private Ball ball = new Ball();
     private Paddle paddle = new Paddle();
+    private Graphics2D graphics;
+    private Controller controller = new Controller();
 
 
     private void init() {
@@ -20,6 +23,9 @@ public class BreakoutPanel extends JPanel implements Runnable, Animated {
         // Draw game on a buffered image and make the rendering more smooth
         graphics = (Graphics2D) image.getGraphics();
         graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        this.requestFocus();
+        this.addKeyListener(controller);
     }
 
     @Override
@@ -62,5 +68,29 @@ public class BreakoutPanel extends JPanel implements Runnable, Animated {
         graphics2D.drawImage(image, 0, 0, MainWindow.WIDTH, MainWindow.HEIGHT, null);
         // Prevent memory leaks
         graphics2D.dispose();
+    }
+
+    private class Controller implements KeyListener {
+
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                paddle.slidingRight();
+            }
+
+            if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                paddle.slidingLeft();
+            }
+        }
+
+        // Detect if keys are being held down by waiting until keyReleased() to stop moving the paddle
+        @Override
+        public void keyReleased(KeyEvent e) {
+            paddle.stopSliding();
+        }
+
+        @Override
+        public void keyTyped(KeyEvent e) {}
     }
 }
