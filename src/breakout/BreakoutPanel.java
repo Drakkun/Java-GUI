@@ -13,6 +13,7 @@ public class BreakoutPanel extends JPanel implements Runnable, Animated {
     private BufferedImage image = new BufferedImage(MainWindow.WIDTH, MainWindow.HEIGHT, BufferedImage.TYPE_INT_RGB);
     private Ball ball = new Ball();
     private Paddle paddle = new Paddle();
+    private BrickBoard brickBoard = new BrickBoard();
     private Graphics2D graphics;
     private Controller controller = new Controller();
 
@@ -46,8 +47,33 @@ public class BreakoutPanel extends JPanel implements Runnable, Animated {
         }
     }
 
+    public void detectCollisions() {
+        Rectangle ballHitbox = ball.getHitbox();
+        Rectangle paddleHitbox = paddle.getHitbox();
+        Brick[][] bricks = brickBoard.getBricks();
+
+        if (ballHitbox.intersects(paddleHitbox)) {
+            ball.bounceVertically();
+        }
+
+        outer:
+        for (Brick[] row : bricks) {
+            for (Brick brick : row) {
+                Rectangle brickHitbox = brick.getHitbox();
+
+                if (ballHitbox.intersects(brickHitbox)) {
+                    brick.destroy();
+                    ball.bounceVertically();
+
+                    break outer;
+                }
+            }
+        }
+    }
+
     @Override
     public void update() {
+        detectCollisions();
         ball.update();
         paddle.update();
     }
@@ -59,6 +85,7 @@ public class BreakoutPanel extends JPanel implements Runnable, Animated {
 
         ball.render(graphics);
         paddle.render(graphics);
+        brickBoard.render(graphics);
     }
 
     @Override
@@ -76,11 +103,11 @@ public class BreakoutPanel extends JPanel implements Runnable, Animated {
         @Override
         public void keyPressed(KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                paddle.slidingRight();
+                paddle.slideRight();
             }
 
             if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                paddle.slidingLeft();
+                paddle.slideLeft();
             }
         }
 

@@ -4,11 +4,21 @@ import java.awt.*;
 
 public class Ball implements Animated {
 
+    private final int SIZE = 30;
+
     private double x = 200;
     private double y = 200;
-    private int xDirection = 1;
-    private int yDirection = 3;
-    private int size = 30;
+    private double xDirection = 1;
+    private double yDirection = 3;
+
+
+    public Rectangle getHitbox() {
+        return new Rectangle((int) x, (int) y, SIZE, SIZE);
+    }
+
+    public void bounceVertically() {
+        yDirection = -yDirection;
+    }
 
     @Override
     public void update() {
@@ -19,7 +29,7 @@ public class Ball implements Animated {
     public void render(Graphics2D graphics) {
         graphics.setColor(Color.DARK_GRAY);
         graphics.setStroke(new BasicStroke(4));
-        graphics.fillOval((int) x, (int) y, size, size);
+        graphics.fillOval((int) x, (int) y, SIZE, SIZE);
     }
 
     private void setPosition() {
@@ -34,11 +44,11 @@ public class Ball implements Animated {
             yDirection = -yDirection;
         }
 
-        if (x > MainWindow.WIDTH - size) {
+        if (x > MainWindow.WIDTH - SIZE) {
             xDirection = -xDirection;
         }
 
-        if (y > MainWindow.HEIGHT - size) {
+        if (y > MainWindow.HEIGHT - SIZE) {
             yDirection = -yDirection;
         }
     }

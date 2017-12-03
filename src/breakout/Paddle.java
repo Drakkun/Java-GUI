@@ -16,16 +16,20 @@ public class Paddle implements Animated {
     private double x = 260;
     private String slidingTo = NOT_SLIDING;
 
-    public void slidingRight() {
+    public void slideRight() {
         slidingTo = RIGHT;
     }
 
-    public void slidingLeft() {
+    public void slideLeft() {
         slidingTo = LEFT;
     }
 
     public void stopSliding() {
         slidingTo = NOT_SLIDING;
+    }
+
+    public Rectangle getHitbox() {
+        return new Rectangle((int) x, y, WIDTH, HEIGHT);
     }
 
     @Override
