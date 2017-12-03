@@ -2,6 +2,7 @@ package breakout;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 
 public class BreakoutPanel extends JPanel implements Runnable {
@@ -30,10 +31,14 @@ public class BreakoutPanel extends JPanel implements Runnable {
     }
 
     private void runGameLoop() {
-        while (running) {
+        Timer renderWithDelay = new Timer(8, (ActionEvent e) -> {
             update();
             render();
             repaint();
+        });
+
+        while (running) {
+            renderWithDelay.start();
         }
     }
 
