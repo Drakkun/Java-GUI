@@ -66,6 +66,9 @@ public class BreakoutPanel extends JPanel implements Runnable, Animated {
         for (Brick[] row : bricks) {
             for (Brick brick : row) {
                 Rectangle brickHitbox = brick.getHitbox();
+                if (brickHitbox == null) {
+                    continue;
+                }
 
                 if (ballHitbox.intersects(brickHitbox)) {
                     brick.destroy();

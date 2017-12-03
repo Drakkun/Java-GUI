@@ -39,18 +39,21 @@ public class Brick implements Animated {
     }
 
     public Rectangle getHitbox() {
-        return hitbox;
+        return isIntact() ? hitbox : null;
     }
 
     @Override
     public void update() {
-        if (!intact) {
-           // Get rid of it and quit drawing it..
-        }
+
     }
 
     @Override
     public void render(Graphics2D graphics) {
+        if (!isIntact()) {
+            // Brick is broken; do not render.
+            return;
+        }
+
         // Fill in brick
         graphics.setColor(Color.BLUE);
         graphics.fillRect(x, y, BRICK_WIDTH, BRICK_HEIGHT);
