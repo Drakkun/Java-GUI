@@ -5,22 +5,20 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 
-public class BreakoutPanel extends JPanel implements Runnable {
+public class BreakoutPanel extends JPanel implements Runnable, Animated {
 
     private boolean running = false;
-    private BufferedImage image;
+    private BufferedImage image = new BufferedImage(MainWindow.WIDTH, MainWindow.HEIGHT, BufferedImage.TYPE_INT_RGB);
     private Graphics2D graphics;
-
-    Ball ball = new Ball();
+    private Ball ball = new Ball();
+    private Paddle paddle = new Paddle();
 
 
     private void init() {
         running = true;
 
-        // Draw game on a buffered image
-        image = new BufferedImage(MainWindow.WIDTH, MainWindow.HEIGHT, BufferedImage.TYPE_INT_RGB);
+        // Draw game on a buffered image and make the rendering more smooth
         graphics = (Graphics2D) image.getGraphics();
-
         graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     }
 
@@ -33,7 +31,7 @@ public class BreakoutPanel extends JPanel implements Runnable {
     private void runGameLoop() {
         Timer renderWithDelay = new Timer(8, (ActionEvent e) -> {
             update();
-            render();
+            render(null);
             repaint();
         });
 
@@ -42,15 +40,19 @@ public class BreakoutPanel extends JPanel implements Runnable {
         }
     }
 
+    @Override
     public void update() {
         ball.update();
+        paddle.update();
     }
 
-    public void render() {
+    @Override
+    public void render(Graphics2D g) {
         graphics.setColor(Color.WHITE);
         graphics.fillRect(0, 0, MainWindow.WIDTH, MainWindow.HEIGHT);
 
         ball.render(graphics);
+        paddle.render(graphics);
     }
 
     @Override

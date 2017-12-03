@@ -2,22 +2,24 @@ package breakout;
 
 import java.awt.*;
 
-public class Ball {
+public class Ball implements Animated {
 
-    private int x = 200;
-    private int y = 200;
+    private double x = 200;
+    private double y = 200;
     private int xDirection = 1;
     private int yDirection = 3;
-    private int ballSize = 30;
+    private int size = 30;
 
+    @Override
     public void update() {
         setPosition();
     }
 
+    @Override
     public void render(Graphics2D graphics) {
         graphics.setColor(Color.DARK_GRAY);
         graphics.setStroke(new BasicStroke(4));
-        graphics.fillOval(x, y, ballSize, ballSize);
+        graphics.fillOval((int) x, (int) y, size, size);
     }
 
     private void setPosition() {
@@ -32,11 +34,11 @@ public class Ball {
             yDirection = -yDirection;
         }
 
-        if (x > MainWindow.WIDTH - ballSize) {
+        if (x > MainWindow.WIDTH - size) {
             xDirection = -xDirection;
         }
 
-        if (y > MainWindow.HEIGHT - ballSize) {
+        if (y > MainWindow.HEIGHT - size) {
             yDirection = -yDirection;
         }
     }
