@@ -18,6 +18,7 @@ public class BreakoutPanel extends JPanel implements Runnable, Animated {
     private Paddle paddle = new Paddle();
     private BrickBoard brickBoard = new BrickBoard();
     private Controller controller = new Controller();
+    private HUD hud = new HUD();
 
     // Game info
     private boolean running = false;
@@ -69,6 +70,7 @@ public class BreakoutPanel extends JPanel implements Runnable, Animated {
                 if (ballHitbox.intersects(brickHitbox)) {
                     brick.destroy();
                     ball.bounceVertically();
+                    hud.incrementPoints(50);
 
                     break outer;
                 }
@@ -91,6 +93,7 @@ public class BreakoutPanel extends JPanel implements Runnable, Animated {
         ball.render(graphics);
         paddle.render(graphics);
         brickBoard.render(graphics);
+        hud.render(graphics);
     }
 
     @Override
