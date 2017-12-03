@@ -6,8 +6,8 @@ public class Paddle implements Animated {
 
     private final int WIDTH = 120;
     private final int HEIGHT = 25;
-    private final int y = MainWindow.HEIGHT - 80;
-    private final int RIGHT_BOUNDARY = MainWindow.WIDTH - WIDTH;
+    private final int y = MainWindow.WINDOW_HEIGHT - 80;
+    private final int RIGHT_BOUNDARY = MainWindow.WINDOW_WIDTH - WIDTH;
     private final int LEFT_BOUNDARY = 0;
     private final String NOT_SLIDING = "Not moving";
     private final String RIGHT = "Right";

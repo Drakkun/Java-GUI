@@ -7,22 +7,27 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
+import static breakout.MainWindow.WINDOW_HEIGHT;
+import static breakout.MainWindow.WINDOW_WIDTH;
+import static java.awt.image.BufferedImage.TYPE_INT_RGB;
+
 public class BreakoutPanel extends JPanel implements Runnable, Animated {
 
-    private boolean running = false;
-    private BufferedImage image = new BufferedImage(MainWindow.WIDTH, MainWindow.HEIGHT, BufferedImage.TYPE_INT_RGB);
+    // Game objects
     private Ball ball = new Ball();
     private Paddle paddle = new Paddle();
     private BrickBoard brickBoard = new BrickBoard();
-    private Graphics2D graphics;
     private Controller controller = new Controller();
+
+    // Game info
+    private boolean running = false;
+    private int points = 0;
+    private BufferedImage image = new BufferedImage(WINDOW_WIDTH, WINDOW_HEIGHT, TYPE_INT_RGB);
+    private Graphics2D graphics = (Graphics2D) image.getGraphics();
 
 
     private void init() {
         running = true;
-
-        // Draw game on a buffered image and make the rendering more smooth
-        graphics = (Graphics2D) image.getGraphics();
         graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         this.requestFocus();
@@ -81,7 +86,7 @@ public class BreakoutPanel extends JPanel implements Runnable, Animated {
     @Override
     public void render(Graphics2D g) {
         graphics.setColor(Color.WHITE);
-        graphics.fillRect(0, 0, MainWindow.WIDTH, MainWindow.HEIGHT);
+        graphics.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
         ball.render(graphics);
         paddle.render(graphics);
@@ -92,7 +97,7 @@ public class BreakoutPanel extends JPanel implements Runnable, Animated {
     public void paintComponent(Graphics g) {
         Graphics2D graphics2D = (Graphics2D) g;
 
-        graphics2D.drawImage(image, 0, 0, MainWindow.WIDTH, MainWindow.HEIGHT, null);
+        graphics2D.drawImage(image, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, null);
         // Prevent memory leaks
         graphics2D.dispose();
     }

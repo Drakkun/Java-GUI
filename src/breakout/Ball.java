@@ -44,11 +44,11 @@ public class Ball implements Animated {
             yDirection = -yDirection;
         }
 
-        if (x > MainWindow.WIDTH - SIZE) {
+        if (x > MainWindow.WINDOW_WIDTH - SIZE) {
             xDirection = -xDirection;
         }
 
-        if (y > MainWindow.HEIGHT - SIZE) {
+        if (y > MainWindow.WINDOW_HEIGHT - SIZE) {
             yDirection = -yDirection;
         }
     }

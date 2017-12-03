@@ -4,8 +4,8 @@ import javax.swing.*;
 
 public class MainWindow {
 
-    public static final int WIDTH = 640;
-    public static final int HEIGHT = 480;
+    public static final int WINDOW_WIDTH = 640;
+    public static final int WINDOW_HEIGHT = 480;
 
     public static void main(String[] args) {
         //Schedule a job for the event-dispatching thread:
@@ -19,7 +19,7 @@ public class MainWindow {
         Thread thread = new Thread(breakoutPanel);
 
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(WIDTH, HEIGHT);
+        frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         frame.setResizable(false);
         frame.add(breakoutPanel);
         frame.setVisible(true);
