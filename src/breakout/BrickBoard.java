@@ -7,7 +7,7 @@ import static breakout.Brick.BRICK_WIDTH;
 
 public class BrickBoard implements Animated {
 
-    public final int VER_PADDING = 50;
+    public final int VER_PADDING = 30;
     public final int HOR_PADDING = 15;
 
     // 2D array of the brick brickArray the player is breaking through. A value of false represents a broken brick
@@ -34,9 +34,7 @@ public class BrickBoard implements Animated {
     }
 
     @Override
-    public void update() {
-
-    }
+    public void update() {}
 
     @Override
     public void render(Graphics2D graphics) {

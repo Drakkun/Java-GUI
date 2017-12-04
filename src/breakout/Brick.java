@@ -3,7 +3,7 @@ package breakout;
 import java.awt.*;
 
 
-public class Brick implements Animated {
+public class Brick implements Animated, Collidable {
 
     public static final int BRICK_HEIGHT = 35;
     public static final int BRICK_WIDTH = 85;
@@ -22,14 +22,6 @@ public class Brick implements Animated {
         hitbox = new Rectangle(x, y, BRICK_WIDTH, BRICK_HEIGHT);
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
     public boolean isIntact() {
         return intact;
     }
@@ -38,14 +30,13 @@ public class Brick implements Animated {
         this.intact = false;
     }
 
+    @Override
     public Rectangle getHitbox() {
         return isIntact() ? hitbox : null;
     }
 
     @Override
-    public void update() {
-
-    }
+    public void update() {}
 
     @Override
     public void render(Graphics2D graphics) {

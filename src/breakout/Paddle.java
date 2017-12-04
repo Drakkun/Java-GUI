@@ -2,7 +2,7 @@ package breakout;
 
 import java.awt.*;
 
-public class Paddle implements Animated {
+public class Paddle implements Animated, Collidable {
 
     private final int WIDTH = 120;
     private final int HEIGHT = 25;
@@ -28,6 +28,7 @@ public class Paddle implements Animated {
         slidingTo = NOT_SLIDING;
     }
 
+    @Override
     public Rectangle getHitbox() {
         return new Rectangle((int) x, y, WIDTH, HEIGHT);
     }

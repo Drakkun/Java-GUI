@@ -2,7 +2,7 @@ package breakout;
 
 import java.awt.*;
 
-public class Ball implements Animated {
+public class Ball implements Animated, Collidable {
 
     private final int SIZE = 30;
 
@@ -12,12 +12,36 @@ public class Ball implements Animated {
     private double yDirection = 3;
 
 
+    @Override
     public Rectangle getHitbox() {
         return new Rectangle((int) x, (int) y, SIZE, SIZE);
     }
 
     public void bounceVertically() {
         yDirection = -yDirection;
+    }
+
+    private void bounceHorizontally() {
+        xDirection = -xDirection;
+    }
+
+    public void bounce(CollisionSide fromSide) throws IllegalArgumentException {
+        switch (fromSide) {
+            case NONE:
+                break;
+            case LEFT:
+            case RIGHT:
+                bounceHorizontally();
+                break;
+            case BOTTOM:
+            case TOP:
+                bounceVertically();
+                break;
+            default:
+                throw new IllegalArgumentException(
+                        "Argument 'fromSide' must be a nonnull CollisionSide. Value was " + fromSide
+                );
+        }
     }
 
     @Override

@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
+import static breakout.CollisionSide.*;
 import static breakout.MainWindow.WINDOW_HEIGHT;
 import static breakout.MainWindow.WINDOW_WIDTH;
 import static java.awt.image.BufferedImage.TYPE_INT_RGB;
@@ -58,9 +59,8 @@ public class BreakoutPanel extends JPanel implements Runnable, Animated {
         Rectangle paddleHitbox = paddle.getHitbox();
         Brick[][] bricks = brickBoard.getBricks();
 
-        if (ballHitbox.intersects(paddleHitbox)) {
-            ball.bounceVertically();
-        }
+        CollisionSide offSide = sideOfIntersection(paddleHitbox, ballHitbox);
+        ball.bounce(offSide);
 
         outer:
         for (Brick[] row : bricks) {
@@ -78,6 +78,19 @@ public class BreakoutPanel extends JPanel implements Runnable, Animated {
                     break outer;
                 }
             }
+        }
+    }
+
+    private CollisionSide sideOfIntersection(Rectangle r1, Rectangle r2) {
+        if (!r1.intersects(r2)) {
+            return NONE;
+        }
+        if (r1.getY() <= r2.getY() - (r2.getHeight()/2) || r1.getY() >= r2.getY() + (r2.getHeight()/2)) {
+            System.out.println("Up/down");
+            return TOP;
+        } else {
+            System.out.println("Side");
+            return RIGHT;
         }
     }
 
