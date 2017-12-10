@@ -4,8 +4,8 @@ import javax.swing.*;
 
 public class MainWindow {
 
-    public static final int WINDOW_WIDTH = 640;
-    public static final int WINDOW_HEIGHT = 480;
+    static final int WINDOW_WIDTH = 640;
+    static final int WINDOW_HEIGHT = 480;
 
     public static void main(String[] args) {
         //Schedule a job for the event-dispatching thread:
