@@ -28,14 +28,13 @@ class Brick implements Animated {
         return intact;
     }
 
-    // Tell the brick to stop rendering
+    // Tells brick to stop rendering itself and ball to ignore it
     void destroy() {
         this.intact = false;
     }
 
-    // Get the rectangular 'hitbox' we use to decide if the brick has contacted the ball
     Rectangle getHitbox() {
-        return isIntact() ? hitbox : null;
+        return hitbox;
     }
 
     @Override

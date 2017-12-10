@@ -24,6 +24,10 @@ class Ball implements Animated {
         return this.ballOffScreen;
     }
 
+    double getYDirection() {
+        return this.yDirection;
+    }
+
     // Return the most updated 'hitbox' used to check if ball has collided with anything
     Rectangle getHitbox() {
         return new Rectangle((int) x, (int) y, SIZE, SIZE);

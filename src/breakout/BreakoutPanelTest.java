@@ -1,33 +1,33 @@
 package breakout;
 
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
-@RunWith(Arquillian.class)
+
 public class BreakoutPanelTest {
 
-    @Test
-    public void detectCollisions() throws Exception {
-
-    }
 
     @Test
-    public void endGameIfNecessary() throws Exception {
+    public void brickHit() {
+        BreakoutPanel panel = new BreakoutPanel();
+        Ball ball = new Ball();
+        Brick brick = new Brick(5, 6);
+        HUD hud = new HUD();
 
+        boolean brickIntactBefore = brick.isIntact();
+        double yDirBefore = ball.getYDirection();
+        int pointsBefore = hud.getPoints();
+
+        panel.brickHit(brick, ball, hud);
+
+        boolean brickIntactAfter = brick.isIntact();
+        double yDirAfter = ball.getYDirection();
+        int pointsAfter = hud.getPoints();
+
+        assertNotEquals(brickIntactBefore, brickIntactAfter);
+        assertTrue(yDirBefore == (yDirAfter * -1));
+        assertTrue(pointsAfter > pointsBefore);
     }
-
-    @Deployment
-    public static JavaArchive createDeployment() {
-        return ShrinkWrap.create(JavaArchive.class)
-                .addClass(BreakoutPanel.class)
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
-    }
-
 }

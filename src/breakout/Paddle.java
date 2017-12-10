@@ -2,6 +2,8 @@ package breakout;
 
 import java.awt.*;
 
+import static breakout.SlideDirection.*;
+
 class Paddle implements Animated {
 
     private final int WIDTH = 120;
@@ -9,24 +11,13 @@ class Paddle implements Animated {
     private final int y = MainWindow.WINDOW_HEIGHT - 80;
     private final int RIGHT_BOUNDARY = MainWindow.WINDOW_WIDTH - WIDTH;
     private final int LEFT_BOUNDARY = 0;
-    private final String NOT_SLIDING = "Not moving";
-    private final String RIGHT = "Right";
-    private final String LEFT = "Left";
 
     private double x = 260;
     // Used with keyReleased() to check if the player is holding down the arrow key
-    private String slidingTo = NOT_SLIDING;
+    private SlideDirection slidingTo = NOT_SLIDING;
 
-    void slideRight() {
-        slidingTo = RIGHT;
-    }
-
-    void slideLeft() {
-        slidingTo = LEFT;
-    }
-
-    void stopSliding() {
-        slidingTo = NOT_SLIDING;
+    void setSlidingTo(SlideDirection value) {
+        slidingTo = value;
     }
 
     // Return the most updated 'hitbox' used to check if paddle has collided with the ball
@@ -51,4 +42,8 @@ class Paddle implements Animated {
         graphics.setColor(Color.BLACK);
         graphics.fillRect((int) x, y, WIDTH, HEIGHT);
     }
+}
+
+enum SlideDirection {
+    RIGHT, LEFT, NOT_SLIDING
 }

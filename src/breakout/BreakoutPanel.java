@@ -44,6 +44,7 @@ class BreakoutPanel extends JPanel implements Runnable, Animated {
         runGameLoop();
     }
 
+    // Requires GUI (to repaint)
     private void runGameLoop() {
         while (running) {
             update();
@@ -59,8 +60,8 @@ class BreakoutPanel extends JPanel implements Runnable, Animated {
         }
     }
 
-    // Check if ball has come into contact with paddle or any bricks and react accordingly
-    void detectCollisions() {
+    // Check if ball has come into contact with paddle or any bricks and react accordingly. Requires GUI to find varying object positions
+    private void detectCollisions() {
         Rectangle ballHitbox = ball.getHitbox();
         Rectangle paddleHitbox = paddle.getHitbox();
         Brick[][] bricks = brickBoard.getBricks();
@@ -73,14 +74,12 @@ class BreakoutPanel extends JPanel implements Runnable, Animated {
         for (Brick[] row : bricks) {
             for (Brick brick : row) {
                 Rectangle brickHitbox = brick.getHitbox();
-                if (brickHitbox == null) {
+                if (!brick.isIntact()) {
                     continue;
                 }
 
                 if (ballHitbox.intersects(brickHitbox)) {
-                    brick.destroy();
-                    ball.bounceVertically();
-                    hud.incrementPoints(50);
+                    brickHit(brick, ball, hud);
 
                     break outer;
                 }
@@ -88,8 +87,14 @@ class BreakoutPanel extends JPanel implements Runnable, Animated {
         }
     }
 
-    // Check if all bricks are broken or if ball went off screen to determine if the game has ended
-    void endGameIfNecessary() {
+    void brickHit(Brick brick, Ball ball, HUD hud) {
+        brick.destroy();
+        ball.bounceVertically();
+        hud.incrementPoints(50);
+    }
+
+    // Check if all bricks are broken or if ball went off screen to determine if the game has ended. Requires GUI to update the hud/end game loop
+    private void endGameIfNecessary() {
         if (ball.getBallOffScreen()) {
             hud.gameOver(graphics);
             this.paintComponent(graphics);
@@ -137,19 +142,19 @@ class BreakoutPanel extends JPanel implements Runnable, Animated {
         public void keyPressed(KeyEvent e) {
             // User pressed right arrow key
             if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                paddle.slideRight();
+                paddle.setSlidingTo(SlideDirection.RIGHT);
             }
 
             // User pressed left arrow key
             if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                paddle.slideLeft();
+                paddle.setSlidingTo(SlideDirection.LEFT);
             }
         }
 
         // Detect if keys are being held down by waiting until keyReleased() to stop moving the paddle
         @Override
         public void keyReleased(KeyEvent e) {
-            paddle.stopSliding();
+            paddle.setSlidingTo(SlideDirection.NOT_SLIDING);
         }
 
         @Override

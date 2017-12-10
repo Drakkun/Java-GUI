@@ -1,26 +1,23 @@
 package breakout;
 
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import static org.junit.Assert.*;
+import static junit.framework.TestCase.assertEquals;
 
-@RunWith(Arquillian.class)
+
 public class HUDTest {
-    @Test
+
+    @Test(expected = IllegalArgumentException.class)
     public void incrementPoints() throws Exception {
-    }
+        HUD hud = new HUD();
 
-    @Deployment
-    public static JavaArchive createDeployment() {
-        return ShrinkWrap.create(JavaArchive.class)
-                .addClass(HUD.class)
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
-    }
+        hud.incrementPoints(5);
+        assertEquals(hud.getPoints(), 5);
 
+        hud.incrementPoints(0);
+        assertEquals(hud.getPoints(), 5);
+
+        // Should throw IllegalArgumentException
+        hud.incrementPoints(-5);
+    }
 }

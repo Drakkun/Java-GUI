@@ -10,7 +10,15 @@ class HUD {
     private Font font = new Font("Verdana", Font.BOLD, 18);
 
 
+    int getPoints() {
+        return this.points;
+    }
+
     void incrementPoints(int value) {
+        if (value < 0) {
+            throw new IllegalArgumentException("Must increment points by a positive integer");
+        }
+
         points += value;
     }
 

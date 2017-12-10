@@ -1,34 +1,36 @@
 package breakout;
 
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
-@RunWith(Arquillian.class)
+
 public class PaddleTest {
-    @Test
-    public void slideRight() throws Exception {
-    }
+
 
     @Test
-    public void slideLeft() throws Exception {
-    }
+    public void update() throws Exception {
+        Paddle paddle = new Paddle();
 
-    @Test
-    public void stopSliding() throws Exception {
-    }
+        // Set sliding to right then check that update actually moved paddle to right
+        double xBeforeUpdate = paddle.getHitbox().x;
+        paddle.setSlidingTo(SlideDirection.RIGHT);
+        paddle.update();
+        double xAfterUpdate = paddle.getHitbox().x;
+        assertTrue(xBeforeUpdate < xAfterUpdate);
 
-    @Deployment
-    public static JavaArchive createDeployment() {
-        return ShrinkWrap.create(JavaArchive.class)
-                .addClass(Paddle.class)
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
-    }
+        // Set sliding to left then check that update actually moved paddle to lef
+        xBeforeUpdate = paddle.getHitbox().x;
+        paddle.setSlidingTo(SlideDirection.LEFT);
+        paddle.update();
+        xAfterUpdate = paddle.getHitbox().x;
+        assertTrue(xBeforeUpdate > xAfterUpdate);
 
+        // Don't move - don't update
+        xBeforeUpdate = paddle.getHitbox().x;
+        paddle.setSlidingTo(SlideDirection.NOT_SLIDING);
+        paddle.update();
+        xAfterUpdate = paddle.getHitbox().x;
+        assertTrue(xBeforeUpdate == xAfterUpdate);
+    }
 }
