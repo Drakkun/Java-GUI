@@ -4,16 +4,38 @@ import java.awt.*;
 
 import static breakout.MainWindow.WINDOW_WIDTH;
 
-public class HUD {
+class HUD {
 
     private int points = 0;
+    private Font font = new Font("Verdana", Font.BOLD, 18);
 
-    public void incrementPoints(int value) {
+
+    void incrementPoints(int value) {
         points += value;
     }
 
-    public void render(Graphics2D graphics) {
+    void render(Graphics2D graphics) {
+        graphics.setFont(font);
+
         graphics.setColor(Color.BLACK);
-        graphics.drawString("Points: " + Integer.toString(points), WINDOW_WIDTH/2 - 30, 20);
+        graphics.drawString("Points: " + Integer.toString(points), WINDOW_WIDTH/2 - 60, 20);
+    }
+
+    // Display loss
+    void gameOver(Graphics2D graphics) {
+        font = new Font("Monospaced", Font.BOLD, 72);
+        graphics.setFont(font);
+
+        graphics.setColor(Color.RED);
+        graphics.drawString("GAME OVER",120,220);
+    }
+
+    // Display win
+    void playerWins(Graphics2D graphics) {
+        font = new Font("Monospaced", Font.BOLD, 72);
+        graphics.setFont(font);
+
+        graphics.setColor(Color.GREEN);
+        graphics.drawString("YOU WIN!",160,220);
     }
 }

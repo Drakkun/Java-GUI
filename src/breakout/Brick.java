@@ -3,10 +3,10 @@ package breakout;
 import java.awt.*;
 
 
-public class Brick implements Animated {
+class Brick implements Animated {
 
-    public static final int BRICK_HEIGHT = 35;
-    public static final int BRICK_WIDTH = 85;
+    static final int BRICK_HEIGHT = 35;
+    static final int BRICK_WIDTH = 85;
 
     private boolean intact = true;
     private int x;
@@ -16,36 +16,30 @@ public class Brick implements Animated {
 
     private Brick() {}
 
-    public Brick(int x, int y) {
+    // Only use this constructor and get x/y from the brick board
+    Brick(int x, int y) {
         this.x = x;
         this.y = y;
         hitbox = new Rectangle(x, y, BRICK_WIDTH, BRICK_HEIGHT);
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public boolean isIntact() {
+    // Tell the brick to keep rendering
+    boolean isIntact() {
         return intact;
     }
 
-    public void destroy() {
+    // Tell the brick to stop rendering
+    void destroy() {
         this.intact = false;
     }
 
-    public Rectangle getHitbox() {
+    // Get the rectangular 'hitbox' we use to decide if the brick has contacted the ball
+    Rectangle getHitbox() {
         return isIntact() ? hitbox : null;
     }
 
     @Override
-    public void update() {
-
-    }
+    public void update() { }
 
     @Override
     public void render(Graphics2D graphics) {

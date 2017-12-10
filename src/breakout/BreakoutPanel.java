@@ -2,7 +2,6 @@ package breakout;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
@@ -11,7 +10,7 @@ import static breakout.MainWindow.WINDOW_HEIGHT;
 import static breakout.MainWindow.WINDOW_WIDTH;
 import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 
-public class BreakoutPanel extends JPanel implements Runnable, Animated {
+class BreakoutPanel extends JPanel implements Runnable, Animated {
 
     // Game objects
     private Ball ball = new Ball();
@@ -22,38 +21,46 @@ public class BreakoutPanel extends JPanel implements Runnable, Animated {
 
     // Game info
     private boolean running = false;
-    private int points = 0;
     private BufferedImage image = new BufferedImage(WINDOW_WIDTH, WINDOW_HEIGHT, TYPE_INT_RGB);
     private Graphics2D graphics = (Graphics2D) image.getGraphics();
 
 
     private void init() {
         running = true;
+        // Make graphics smoother
         graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
+        // Request focus to the window so user can use arrow keys to play
         this.requestFocus();
+        // Set arrow key listener
         this.addKeyListener(controller);
     }
 
     @Override
     public void run() {
+        // Init info
         init();
+        // Start game
         runGameLoop();
     }
 
     private void runGameLoop() {
-        Timer renderWithDelay = new Timer(8, (ActionEvent e) -> {
+        while (running) {
             update();
             render(null);
             repaint();
-        });
 
-        while (running) {
-            renderWithDelay.start();
+            // Sleep for a tiny fraction of a second to slow all objects' movements to a normal speed
+            try {
+                Thread.sleep(8);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public void detectCollisions() {
+    // Check if ball has come into contact with paddle or any bricks and react accordingly
+    void detectCollisions() {
         Rectangle ballHitbox = ball.getHitbox();
         Rectangle paddleHitbox = paddle.getHitbox();
         Brick[][] bricks = brickBoard.getBricks();
@@ -81,8 +88,22 @@ public class BreakoutPanel extends JPanel implements Runnable, Animated {
         }
     }
 
+    // Check if all bricks are broken or if ball went off screen to determine if the game has ended
+    void endGameIfNecessary() {
+        if (ball.getBallOffScreen()) {
+            hud.gameOver(graphics);
+            this.paintComponent(graphics);
+            running = false;
+        } else if (brickBoard.isEmpty()) {
+            hud.playerWins(graphics);
+            this.paintComponent(graphics);
+            running = false;
+        }
+    }
+
     @Override
     public void update() {
+        endGameIfNecessary();
         detectCollisions();
         ball.update();
         paddle.update();
@@ -99,6 +120,7 @@ public class BreakoutPanel extends JPanel implements Runnable, Animated {
         hud.render(graphics);
     }
 
+    // Tell swing to draw the game
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D graphics2D = (Graphics2D) g;
@@ -113,10 +135,12 @@ public class BreakoutPanel extends JPanel implements Runnable, Animated {
 
         @Override
         public void keyPressed(KeyEvent e) {
+            // User pressed right arrow key
             if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
                 paddle.slideRight();
             }
 
+            // User pressed left arrow key
             if (e.getKeyCode() == KeyEvent.VK_LEFT) {
                 paddle.slideLeft();
             }

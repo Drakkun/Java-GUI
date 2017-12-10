@@ -5,19 +5,19 @@ import java.awt.*;
 import static breakout.Brick.BRICK_HEIGHT;
 import static breakout.Brick.BRICK_WIDTH;
 
-public class BrickBoard implements Animated {
+class BrickBoard implements Animated {
 
-    public final int VER_PADDING = 50;
-    public final int HOR_PADDING = 15;
+    private final int VER_PADDING = 50;
+    private final int HOR_PADDING = 15;
 
     // 2D array of the brick brickArray the player is breaking through. A value of false represents a broken brick
     private Brick[][] brickArray = new Brick[3][7];
 
-    public BrickBoard() {
+    BrickBoard() {
         build();
     }
 
-    public Brick[][] getBricks() {
+    Brick[][] getBricks() {
         return brickArray;
     }
 
@@ -33,10 +33,20 @@ public class BrickBoard implements Animated {
         }
     }
 
-    @Override
-    public void update() {
-
+    boolean isEmpty() {
+        // Iterate through the board to find any intact bricks
+        for (Brick[] row : brickArray) {
+            for (Brick brick : row) {
+                if (brick.isIntact()) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
+
+    @Override
+    public void update() { }
 
     @Override
     public void render(Graphics2D graphics) {

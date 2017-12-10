@@ -2,7 +2,7 @@ package breakout;
 
 import java.awt.*;
 
-public class Paddle implements Animated {
+class Paddle implements Animated {
 
     private final int WIDTH = 120;
     private final int HEIGHT = 25;
@@ -14,24 +14,27 @@ public class Paddle implements Animated {
     private final String LEFT = "Left";
 
     private double x = 260;
+    // Used with keyReleased() to check if the player is holding down the arrow key
     private String slidingTo = NOT_SLIDING;
 
-    public void slideRight() {
+    void slideRight() {
         slidingTo = RIGHT;
     }
 
-    public void slideLeft() {
+    void slideLeft() {
         slidingTo = LEFT;
     }
 
-    public void stopSliding() {
+    void stopSliding() {
         slidingTo = NOT_SLIDING;
     }
 
-    public Rectangle getHitbox() {
+    // Return the most updated 'hitbox' used to check if paddle has collided with the ball
+    Rectangle getHitbox() {
         return new Rectangle((int) x, y, WIDTH, HEIGHT);
     }
 
+    // Slide in the correct direction but only if the paddle is still on screen
     @Override
     public void update() {
         if (slidingTo.equals(RIGHT) && x < RIGHT_BOUNDARY) {
