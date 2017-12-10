@@ -32,6 +32,17 @@ public class BallTest {
     }
 
     @Test
+    public void bounceHorizontally() {
+        double xDir = ball.getXDirection();
+
+        ball.bounceHorizontally();
+
+        double xDirAfterBounce = ball.getXDirection();
+
+        assertTrue(xDir == (xDirAfterBounce * -1));
+    }
+
+    @Test
     public void speedUpToFour() throws Exception {
         double yDBefore;
 

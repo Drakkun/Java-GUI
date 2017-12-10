@@ -28,6 +28,10 @@ class Ball implements Animated {
         return this.yDirection;
     }
 
+    double getXDirection() {
+        return this.xDirection;
+    }
+
     // Return the most updated 'hitbox' used to check if ball has collided with anything
     Rectangle getHitbox() {
         return new Rectangle((int) x, (int) y, SIZE, SIZE);
@@ -37,6 +41,10 @@ class Ball implements Animated {
         yDirection = -yDirection;
     }
 
+    void bounceHorizontally() {
+        xDirection = -xDirection;
+    }
+
     // Change the direction as needed (when hitting an object or the side of the screen)
     @Override
     public void update() {
@@ -44,15 +52,15 @@ class Ball implements Animated {
         y += yDirection;
 
         if (x < 0) {
-            xDirection = -xDirection;
+            bounceHorizontally();
         }
 
         if (y < 0) {
-            yDirection = -yDirection;
+            bounceVertically();
         }
 
         if (x > WINDOW_WIDTH - SIZE) {
-            xDirection = -xDirection;
+            bounceHorizontally();
         }
 
         if (y > MainWindow.WINDOW_HEIGHT - SIZE) {
